@@ -1,0 +1,20 @@
+# Netlify configuration for Pleroma (Next.js App Router).
+#
+# Netlify auto-detects Next.js and installs the official runtime
+# (@netlify/plugin-nextjs), which serves App Router SSR, middleware, and route
+# handlers as Netlify Functions/Edge. This file just pins the build command and
+# Node version and makes the plugin explicit.
+#
+# Set the app's environment variables in the Netlify UI
+# (Site configuration -> Environment variables), NOT here — secrets must never
+# be committed. See the README's "Deploy to Netlify" section.
+
+[build]
+  command = "next build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
