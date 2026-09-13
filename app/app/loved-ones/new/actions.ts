@@ -37,7 +37,17 @@ export async function createLovedOne(formData: FormData) {
     .select("id")
     .single();
 
-  if (error || !lovedOne) redirect("/app/loved-ones/new?error=save");
+  if (error || !lovedOne) {
+    // Surface the real cause in the server logs — an RLS rejection, a missing
+    // table/column, or an unapplied migration will show up here.
+    console.error("[createLovedOne] loved_ones insert failed:", {
+      message: error?.message,
+      code: error?.code,
+      details: error?.details,
+      hint: error?.hint,
+    });
+    redirect("/app/loved-ones/new?error=save");
+  }
 
   // Characteristic phrases arrive as free text (one per line or comma-separated)
   // and are stored as a text[]. Split, trim, and drop blanks.
@@ -46,16 +56,26 @@ export async function createLovedOne(formData: FormData) {
     .map((p) => p.trim())
     .filter(Boolean);
 
-  await supabase.from("persona_configs").insert({
-    loved_one_id: lovedOne.id,
-    user_id: user.id,
-    relationship: str("relationship"),
-    personality: str("personality"),
-    characteristic_phrases: phrases,
-    tone: str("tone"),
-    topics_to_favor: str("topics_to_favor"),
-    topics_to_avoid: str("topics_to_avoid"),
-  });
+  const { error: personaError } = await supabase
+    .from("persona_configs")
+    .insert({
+      loved_one_id: lovedOne.id,
+      user_id: user.id,
+      relationship: str("relationship"),
+      personality: str("personality"),
+      characteristic_phrases: phrases,
+      tone: str("tone"),
+      topics_to_favor: str("topics_to_favor"),
+      topics_to_avoid: str("topics_to_avoid"),
+    });
+  if (personaError) {
+    console.error("[createLovedOne] persona_configs insert failed:", {
+      message: personaError.message,
+      code: personaError.code,
+      details: personaError.details,
+      hint: personaError.hint,
+    });
+  }
 
   // Up to three initial memories from the form.
   const memories = [str("memory_1"), str("memory_2"), str("memory_3")]
@@ -66,7 +86,17 @@ export async function createLovedOne(formData: FormData) {
       content,
     }));
   if (memories.length) {
-    await supabase.from("memories").insert(memories);
+    const { error: memoryError } = await supabase
+      .from("memories")
+      .insert(memories);
+    if (memoryError) {
+      console.error("[createLovedOne] memories insert failed:", {
+        message: memoryError.message,
+        code: memoryError.code,
+        details: memoryError.details,
+        hint: memoryError.hint,
+      });
+    }
   }
 
   redirect(`/app/loved-ones/${lovedOne.id}`);
