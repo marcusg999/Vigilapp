@@ -60,7 +60,7 @@ export default async function RemembrancePage() {
                 {lo.bio && (
                   <p className="mt-2 line-clamp-2 text-sm text-mist">{lo.bio}</p>
                 )}
-                <p className="mt-4 text-sm text-aurora">Sit together →</p>
+                <p className="mt-4 text-sm text-aurora">Sit together</p>
               </Link>
             </li>
           ))}

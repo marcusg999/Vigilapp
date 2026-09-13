@@ -4,8 +4,9 @@
 
 /*
  * Base atmosphere. The whole app lives at night: a deep indigo ground with a
- * faint candle-warm glow drifting up from below, so content feels held in a
- * quiet, lit space rather than floating on flat black.
+ * faint candle-warm glow rising from below and an amethyst wash from above, so
+ * content feels held in a quiet, lit space — "fullness of light out of the
+ * dark" — rather than floating on flat black.
  */
 :root {
   color-scheme: dark;
@@ -14,14 +15,16 @@
 body {
   background-color: theme("colors.night");
   background-image:
+    /* candle warmth rising from the floor */
     radial-gradient(
-      120% 80% at 50% 100%,
-      rgba(240, 192, 102, 0.08) 0%,
+      120% 75% at 50% 108%,
+      rgba(240, 192, 102, 0.1) 0%,
       rgba(14, 16, 48, 0) 55%
     ),
+    /* amethyst threshold-light from above */
     radial-gradient(
-      100% 70% at 50% 0%,
-      rgba(158, 140, 230, 0.1) 0%,
+      90% 60% at 50% -8%,
+      rgba(158, 140, 230, 0.12) 0%,
       rgba(14, 16, 48, 0) 60%
     );
   background-attachment: fixed;
@@ -44,17 +47,37 @@ body {
     );
   }
 
-  /* The single sacred action. Candlelight, reserved for primary/ritual CTAs. */
+  /* The single sacred action. Candlelight, reserved for primary/ritual CTAs.
+     A bright warm face with an inner highlight and a soft flame-glow, so it
+     reads as lit rather than as a flat gold pill. */
   .btn-candle {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3
-      font-sans text-sm font-medium tracking-wide text-night
+      font-sans text-sm font-semibold tracking-wide text-night
       transition-[transform,box-shadow] duration-300;
-    background: linear-gradient(180deg, theme("colors.candle-soft"), theme("colors.candle"));
-    box-shadow: theme("boxShadow.glow");
+    background: linear-gradient(180deg, #f8e6b6 0%, #f0c066 55%, #e6b054 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.55),
+      0 0 0 1px rgba(240, 192, 102, 0.35),
+      0 10px 30px -10px rgba(240, 192, 102, 0.5);
   }
   .btn-candle:hover {
-    box-shadow: 0 0 52px -6px rgba(240, 192, 102, 0.55);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.6),
+      0 0 0 1px rgba(240, 192, 102, 0.5),
+      0 12px 40px -8px rgba(240, 192, 102, 0.65);
     transform: translateY(-1px);
+  }
+  .btn-candle:focus-visible {
+    outline: 2px solid theme("colors.candle-soft");
+    outline-offset: 3px;
+  }
+  /* Disabled reads as quiet and inert (a "not yet"), never as muddy gold. */
+  .btn-candle:disabled {
+    cursor: not-allowed;
+    background: rgba(158, 140, 230, 0.14);
+    color: rgba(236, 231, 251, 0.5);
+    box-shadow: inset 0 0 0 1px rgba(158, 140, 230, 0.2);
+    transform: none;
   }
 
   /* Quiet secondary action — a thin luminous outline, no fill. */
@@ -62,31 +85,78 @@ body {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3
       font-sans text-sm font-medium tracking-wide text-pearl
       transition-colors duration-300;
-    border: 1px solid rgba(158, 140, 230, 0.3);
+    border: 1px solid rgba(158, 140, 230, 0.32);
   }
   .btn-quiet:hover {
     border-color: rgba(158, 140, 230, 0.6);
     background: rgba(158, 140, 230, 0.08);
   }
+  .btn-quiet:focus-visible {
+    outline: 2px solid rgba(158, 140, 230, 0.6);
+    outline-offset: 3px;
+  }
 
-  /* A raised surface: the veil, lifted a little out of the night. */
+  /* A raised surface: the veil, lifted a little out of the night. Kept quiet —
+     a faint top edge of light rather than a hard box. */
   .surface {
-    @apply rounded-2xl bg-veil/60 backdrop-blur-sm;
+    @apply rounded-2xl bg-veil/50 backdrop-blur-sm;
     border: 1px solid rgba(158, 140, 230, 0.12);
+    box-shadow:
+      inset 0 1px 0 rgba(236, 231, 251, 0.05),
+      0 24px 60px -30px rgba(0, 0, 0, 0.6);
   }
 
   .field {
     @apply w-full rounded-xl bg-night/60 px-4 py-3 font-sans text-pearl
-      placeholder:text-mist/60 outline-none transition-colors;
+      placeholder:text-mist/50 outline-none transition-colors;
     border: 1px solid rgba(158, 140, 230, 0.18);
   }
   .field:focus {
-    border-color: rgba(240, 192, 102, 0.5);
+    border-color: rgba(240, 192, 102, 0.55);
+    box-shadow: 0 0 0 3px rgba(240, 192, 102, 0.12);
   }
 
   .label {
     @apply mb-2 block font-sans text-sm text-mist;
   }
+
+  /* A reverent aside — a passage set off by a soft candle-lit left rule rather
+     than boxed in a card. Used for the transparency note and quiet guidance. */
+  .note-quote {
+    @apply pl-5 text-sm leading-relaxed text-mist;
+    border-left: 2px solid rgba(240, 192, 102, 0.35);
+  }
+}
+
+/* ---- The hero "threshold of light": one orchestrated page-load moment ---- *
+ * Concentric rings settle inward and the flame kindles, once. This previews
+ * the connection ritual's dimensional layers without any JS on the landing. */
+@keyframes kindle {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes ring-in {
+  from {
+    opacity: 0;
+    transform: scale(1.12);
+  }
+  to {
+    opacity: var(--ring-opacity, 0.4);
+    transform: scale(1);
+  }
+}
+.kindle {
+  animation: kindle 1.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.ring-in {
+  animation: ring-in 2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transform-origin: center;
 }
 
 /* Respect people who ask for less motion — grief is not a place to override
