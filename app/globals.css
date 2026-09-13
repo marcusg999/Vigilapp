@@ -21,6 +21,18 @@ body {
       rgba(10, 11, 34, 0) 50%,
       rgba(5, 6, 22, 0.72) 100%
     ),
+    /* two soft colour orbs give the frosted-glass surfaces something to
+       refract, so the glass reads as glass rather than flat panels */
+    radial-gradient(
+      40% 40% at 82% 18%,
+      rgba(158, 140, 230, 0.16) 0%,
+      rgba(14, 16, 48, 0) 100%
+    ),
+    radial-gradient(
+      44% 44% at 12% 88%,
+      rgba(240, 192, 102, 0.12) 0%,
+      rgba(14, 16, 48, 0) 100%
+    ),
     /* candle warmth rising from the floor */
     radial-gradient(
       120% 75% at 50% 108%,
@@ -86,36 +98,57 @@ body {
     transform: none;
   }
 
-  /* Quiet secondary action — a thin luminous outline, no fill. */
+  /* Quiet secondary action — a faint pane of frosted glass. */
   .btn-quiet {
     @apply inline-flex items-center justify-center rounded-full px-6 py-3
       font-sans text-sm font-medium tracking-wide text-pearl
       transition-colors duration-300;
+    background: rgba(236, 231, 251, 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(158, 140, 230, 0.32);
+    box-shadow: inset 0 1px 0 rgba(236, 231, 251, 0.08);
   }
   .btn-quiet:hover {
     border-color: rgba(158, 140, 230, 0.6);
-    background: rgba(158, 140, 230, 0.08);
+    background: rgba(158, 140, 230, 0.1);
   }
   .btn-quiet:focus-visible {
     outline: 2px solid rgba(158, 140, 230, 0.6);
     outline-offset: 3px;
   }
 
-  /* A raised surface: the veil, lifted a little out of the night. Kept quiet —
-     a faint top edge of light rather than a hard box. */
+  /* Frosted glass surface — the modern base for panels, cards, and the nav.
+     A translucent pane with real backdrop blur + saturation, a light top edge,
+     and a soft lifted shadow. It reads as glass because the body carries colour
+     orbs behind it to refract. */
+  .glass,
   .surface {
-    @apply rounded-2xl bg-veil/50 backdrop-blur-sm;
-    border: 1px solid rgba(158, 140, 230, 0.12);
+    @apply rounded-2xl;
+    background: rgba(23, 26, 68, 0.4);
+    backdrop-filter: blur(20px) saturate(1.35);
+    -webkit-backdrop-filter: blur(20px) saturate(1.35);
+    border: 1px solid rgba(236, 231, 251, 0.1);
     box-shadow:
-      inset 0 1px 0 rgba(236, 231, 251, 0.05),
-      0 24px 60px -30px rgba(0, 0, 0, 0.6);
+      inset 0 1px 0 rgba(236, 231, 251, 0.1),
+      0 30px 70px -32px rgba(0, 0, 0, 0.7);
+  }
+
+  /* A glassy top-anchored bar (headers/nav). */
+  .glass-bar {
+    background: rgba(14, 16, 48, 0.55);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border-bottom: 1px solid rgba(236, 231, 251, 0.08);
   }
 
   .field {
-    @apply w-full rounded-xl bg-night/60 px-4 py-3 font-sans text-pearl
+    @apply w-full rounded-xl px-4 py-3 font-sans text-pearl
       placeholder:text-mist/50 outline-none transition-colors;
-    border: 1px solid rgba(158, 140, 230, 0.18);
+    background: rgba(14, 16, 48, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(236, 231, 251, 0.12);
   }
   .field:focus {
     border-color: rgba(240, 192, 102, 0.55);

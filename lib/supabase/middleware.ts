@@ -40,7 +40,10 @@ export async function updateSession(request: NextRequest) {
 
   const path = request.nextUrl.pathname;
   const isPublic =
-    path === "/" || path.startsWith("/auth") || path.startsWith("/api/auth");
+    path === "/" ||
+    path.startsWith("/auth") ||
+    path.startsWith("/api/auth") ||
+    path.startsWith("/ritual-preview"); // design preview, carries no user data
 
   if (!user && !isPublic) {
     const url = request.nextUrl.clone();

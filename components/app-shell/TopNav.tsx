@@ -26,7 +26,7 @@ export function TopNav({
   ];
 
   return (
-    <header className="sticky top-0 z-40 border-b border-aurora/10 bg-night/70 backdrop-blur-md">
+    <header className="glass-bar sticky top-0 z-40">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
         <Link href="/app" className="flex items-center gap-2">
           <FlameMark size={22} />

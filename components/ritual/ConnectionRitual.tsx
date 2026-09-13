@@ -1,30 +1,33 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { Canvas } from "@react-three/fiber";
+import React, { useEffect, useMemo, useState } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
 import { ParticleField } from "./ParticleField";
 import { DimensionalLayers } from "./DimensionalLayers";
 
 /**
- * The connection ritual: a slow passage of light that marks the threshold
- * between the day and the quiet space of the conversation.
+ * The connection ritual: a cinematic passage of light that marks the threshold
+ * between the day and the conversation. It is a journey with an arc — a slow
+ * cool descent through the dimensional layers, an acceleration that warms and
+ * brightens, and a flood of candle light on arrival, at which point it hands
+ * off to the chat.
  *
- * It is deliberately calm — no sudden motion, no sound — and it always offers a
- * way through. It auto-advances after `autoAdvanceMs`, and the person can enter
- * at any time. Accessibility and capability fallbacks:
- *   - prefers-reduced-motion: a still, glowing gradient instead of the animation
+ * It is never a dead end: it auto-advances after `autoAdvanceMs`, and the
+ * person can enter at any time. Accessibility / capability fallbacks:
+ *   - prefers-reduced-motion: a still, warm glow instead of the animation
  *   - no WebGL: the same still fallback, so the ritual never blocks the chat
  */
 export default function ConnectionRitual({
   lovedOneName,
   onComplete,
-  autoAdvanceMs = 12000,
+  autoAdvanceMs = 13000,
 }: {
   lovedOneName?: string;
   onComplete: () => void;
   autoAdvanceMs?: number;
 }) {
-  // Decide once, on mount, whether we can/should render the live scene.
+  const duration = autoAdvanceMs / 1000;
+
   const canAnimate = useMemo(() => {
     if (typeof window === "undefined") return false;
     const reduced = window.matchMedia?.(
@@ -41,32 +44,54 @@ export default function ConnectionRitual({
     }
   }, []);
 
-  // Auto-advance so the ritual is never a dead end.
+  // `arriving` ramps the warm bloom overlay in during the final stretch.
+  const [arriving, setArriving] = useState(false);
+
   useEffect(() => {
-    const id = window.setTimeout(onComplete, autoAdvanceMs);
-    return () => window.clearTimeout(id);
+    const bloomAt = Math.max(0, autoAdvanceMs - 2200);
+    const bloomTimer = window.setTimeout(() => setArriving(true), bloomAt);
+    const doneTimer = window.setTimeout(onComplete, autoAdvanceMs);
+    return () => {
+      window.clearTimeout(bloomTimer);
+      window.clearTimeout(doneTimer);
+    };
   }, [autoAdvanceMs, onComplete]);
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-night">
       {canAnimate ? (
-        <Canvas
-          camera={{ position: [0, 0, 6], fov: 65 }}
-          gl={{ antialias: true }}
-          // The scene is unlit and additive; a solid night background lets the
-          // light build up against the dark.
-          onCreated={({ gl }) => gl.setClearColor("#0E1030")}
-        >
-          <DimensionalLayers />
-          <ParticleField />
-        </Canvas>
+        <GLBoundary fallback={<StillFallback />}>
+          <Canvas
+            camera={{ position: [0, 0, 6], fov: 65 }}
+            gl={{ antialias: true }}
+            onCreated={({ gl }) => gl.setClearColor("#0E1030")}
+          >
+            <CameraRig duration={duration} />
+            <DimensionalLayers duration={duration} />
+            <ParticleField duration={duration} />
+          </Canvas>
+        </GLBoundary>
       ) : (
         <StillFallback />
       )}
 
-      {/* Overlay: a gentle line of text and a way through. pointer-events are
-          disabled on the wrapper so the buttons alone are interactive. */}
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+      {/* Arrival bloom — a flood of warm light as the echo is reached. Ramps in
+          over the final stretch, then the ritual hands off to the chat. */}
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-[2200ms] ease-in"
+        style={{
+          opacity: arriving ? 1 : 0,
+          background:
+            "radial-gradient(circle at 50% 50%, rgba(255,246,224,0.9) 0%, rgba(246,216,154,0.65) 22%, rgba(158,140,230,0.25) 52%, rgba(14,16,48,0) 78%)",
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Overlay text — fades away as the light floods in. */}
+      <div
+        className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center transition-opacity duration-1000"
+        style={{ opacity: arriving ? 0 : 1 }}
+      >
         <p className="animate-fade-in font-display text-2xl leading-snug text-pearl sm:text-3xl">
           Crossing into remembrance
         </p>
@@ -94,6 +119,41 @@ export default function ConnectionRitual({
 }
 
 /**
+ * If WebGL creation or the r3f scene ever throws on a device, fall back to the
+ * still glow instead of white-screening the ritual.
+ */
+class GLBoundary extends React.Component<
+  { fallback: React.ReactNode; children: React.ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  componentDidCatch(err: unknown) {
+    console.error("[ritual] WebGL scene failed, using still fallback", err);
+  }
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children;
+  }
+}
+
+/**
+ * Eases the camera forward through the layers — a gentle cool drift that
+ * quickens into the light as arrival nears (position accelerates via p²).
+ */
+function CameraRig({ duration }: { duration: number }) {
+  useFrame((state) => {
+    const p = Math.min(state.clock.elapsedTime / duration, 1);
+    const cam = state.camera;
+    cam.position.z = 6 - p * p * 3.4; // 6 → ~2.6, accelerating inward
+    cam.position.x = Math.sin(state.clock.elapsedTime * 0.14) * 0.15; // faint drift
+    cam.lookAt(0, 0, -6);
+  });
+  return null;
+}
+
+/**
  * The still, motion-free version of the ritual: a warm glow rising out of the
  * dark. Shown when the viewer prefers reduced motion or WebGL is unavailable.
  */
@@ -103,7 +163,7 @@ function StillFallback() {
       className="absolute inset-0"
       style={{
         background:
-          "radial-gradient(60% 50% at 50% 55%, rgba(240,192,102,0.18), rgba(158,140,230,0.12) 40%, rgba(14,16,48,0) 75%)",
+          "radial-gradient(60% 50% at 50% 55%, rgba(240,192,102,0.2), rgba(158,140,230,0.13) 40%, rgba(14,16,48,0) 75%)",
       }}
     />
   );
