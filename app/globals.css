@@ -15,6 +15,12 @@
 body {
   background-color: theme("colors.night");
   background-image:
+    /* cinematic edge vignette — darkens the corners so light reads as light */
+    radial-gradient(
+      125% 125% at 50% 42%,
+      rgba(10, 11, 34, 0) 50%,
+      rgba(5, 6, 22, 0.72) 100%
+    ),
     /* candle warmth rising from the floor */
     radial-gradient(
       120% 75% at 50% 108%,
@@ -157,6 +163,16 @@ body {
 .ring-in {
   animation: ring-in 2s cubic-bezier(0.16, 1, 0.3, 1) both;
   transform-origin: center;
+}
+/* A very slow amethyst aura turning behind the hero flame — barely perceptible
+   life, not decoration. Disabled under reduced-motion by the rule below. */
+@keyframes aura-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.aura-spin {
+  animation: aura-spin 70s linear infinite;
 }
 
 /* Respect people who ask for less motion — grief is not a place to override
