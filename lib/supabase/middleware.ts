@@ -49,15 +49,12 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // Admin-area role gate. A missing/insufficient role is bounced to the app.
+  // Admin-area gate. Admin status lives in the admin_users registry, checked
+  // via the is_admin() SQL function. Non-admins are bounced to the app. (The
+  // admin layout re-checks this and also enforces MFA authoritatively.)
   if (user && path.startsWith("/admin")) {
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", user.id)
-      .single();
-
-    if (profile?.role !== "admin") {
+    const { data: admin } = await supabase.rpc("is_admin");
+    if (admin !== true) {
       const url = request.nextUrl.clone();
       url.pathname = "/app";
       return NextResponse.redirect(url);

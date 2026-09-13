@@ -1,51 +1,48 @@
 /**
  * Shared TypeScript shapes for the Vigil data model.
  *
- * This mirrors the SQL schema in `supabase/migrations`. It is hand-written
- * (rather than generated) so the whole app has one small, readable source of
- * truth for row shapes. Keep it in sync with the migrations.
+ * This mirrors the SQL in `supabase/migrations` (0002_tables.sql) exactly.
+ * It is hand-written so the whole app has one small, readable source of truth
+ * for row shapes. Keep it in sync with the migrations.
  *
- * Tables (all small and single-purpose):
- *  - profiles         one row per auth user (display name, role, flags)
- *  - loved_ones       a person the user is remembering
- *  - persona_configs  the onboarding fields that shape a loved one's "echo"
- *  - memories         individual shared memories tied to a loved one
- *  - conversations    a chat session with a loved one's echo
- *  - messages         individual chat turns within a conversation
- *  - offerings        short written offerings left for a loved one
- *  - content_items    admin-managed education content (rituals / NDE)
- *  - audit_log        append-only record of admin actions
+ * Admin status is NOT a column here — it lives in a separate `admin_users`
+ * registry that clients can't read, and is checked via the `is_admin()` SQL
+ * function (see lib/auth.ts). Profiles therefore carry no role.
  */
 
-export type UserRole = "user" | "admin";
 export type MessageRole = "user" | "assistant";
+export type ContentCategory = "ritual" | "nde";
 
 export interface Profile {
   id: string; // = auth.users.id
-  display_name: string | null;
-  role: UserRole;
-  onboarding_ack: boolean; // acknowledged the "symbolic, not literal" transparency note
+  display_name: string;
   created_at: string;
+  updated_at: string;
 }
 
 export interface LovedOne {
   id: string;
   user_id: string;
   name: string;
-  relationship: string | null; // e.g. "my grandmother"
-  birth_year: number | null;
-  passing_year: number | null;
-  avatar_url: string | null;
+  born_on: string | null; // date
+  died_on: string | null; // date
+  avatar_path: string | null; // Storage path, never a public URL
+  bio: string;
   created_at: string;
+  updated_at: string;
 }
 
 export interface PersonaConfig {
   id: string;
   loved_one_id: string;
   user_id: string;
-  personality: string | null; // warmth, humor, temperament in the user's words
-  characteristic_phrases: string | null; // things they used to say
-  voice_notes: string | null; // cadence / how they spoke
+  relationship: string; // e.g. "mother", "friend"
+  personality: string;
+  characteristic_phrases: string[]; // things they used to say
+  tone: string;
+  topics_to_favor: string;
+  topics_to_avoid: string;
+  created_at: string;
   updated_at: string;
 }
 
@@ -53,8 +50,7 @@ export interface Memory {
   id: string;
   loved_one_id: string;
   user_id: string;
-  title: string | null;
-  body: string;
+  content: string;
   created_at: string;
 }
 
@@ -62,7 +58,9 @@ export interface Conversation {
   id: string;
   loved_one_id: string;
   user_id: string;
+  title: string;
   created_at: string;
+  updated_at: string;
 }
 
 export interface Message {
@@ -84,30 +82,30 @@ export interface Offering {
 
 export interface ContentItem {
   id: string;
+  category: ContentCategory;
   title: string;
   body: string;
-  ritual_origin: string | null; // tradition / culture of origin
-  region: string | null;
+  region: string | null; // ritual origin / region
   youtube_url: string | null;
   published: boolean;
+  created_by: string | null;
   created_at: string;
   updated_at: string;
 }
 
 export interface AuditLogEntry {
-  id: string;
-  actor_id: string; // admin user id
-  action: string; // e.g. "content_item.create"
-  target_table: string | null;
-  target_id: string | null;
-  details: Record<string, unknown> | null;
+  id: number;
+  actor: string | null;
+  action: string; // e.g. "content.create"
+  entity: string | null; // e.g. "content_items"
+  entity_id: string | null;
+  metadata: Record<string, unknown>;
   created_at: string;
 }
 
 /**
- * Minimal Database type compatible with @supabase/ssr generics. Each table
- * lists its Row / Insert / Update shapes. Insert/Update loosen server-managed
- * columns (ids, timestamps) which have DB defaults.
+ * Minimal Database type compatible with @supabase/ssr generics. Insert/Update
+ * loosen columns that have DB defaults (ids, timestamps, defaulted text).
  */
 type WithDefaults<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
@@ -116,17 +114,31 @@ export interface Database {
     Tables: {
       profiles: {
         Row: Profile;
-        Insert: WithDefaults<Profile, "created_at" | "role" | "onboarding_ack">;
+        Insert: WithDefaults<Profile, "created_at" | "updated_at" | "display_name">;
         Update: Partial<Profile>;
       };
       loved_ones: {
         Row: LovedOne;
-        Insert: WithDefaults<LovedOne, "id" | "created_at">;
+        Insert: WithDefaults<
+          LovedOne,
+          "id" | "created_at" | "updated_at" | "bio" | "born_on" | "died_on" | "avatar_path"
+        >;
         Update: Partial<LovedOne>;
       };
       persona_configs: {
         Row: PersonaConfig;
-        Insert: WithDefaults<PersonaConfig, "id" | "updated_at">;
+        Insert: WithDefaults<
+          PersonaConfig,
+          | "id"
+          | "created_at"
+          | "updated_at"
+          | "relationship"
+          | "personality"
+          | "characteristic_phrases"
+          | "tone"
+          | "topics_to_favor"
+          | "topics_to_avoid"
+        >;
         Update: Partial<PersonaConfig>;
       };
       memories: {
@@ -136,7 +148,7 @@ export interface Database {
       };
       conversations: {
         Row: Conversation;
-        Insert: WithDefaults<Conversation, "id" | "created_at">;
+        Insert: WithDefaults<Conversation, "id" | "created_at" | "updated_at" | "title">;
         Update: Partial<Conversation>;
       };
       messages: {
@@ -153,21 +165,30 @@ export interface Database {
         Row: ContentItem;
         Insert: WithDefaults<
           ContentItem,
-          "id" | "created_at" | "updated_at" | "published"
+          "id" | "created_at" | "updated_at" | "published" | "created_by" | "body"
         >;
         Update: Partial<ContentItem>;
       };
       audit_log: {
         Row: AuditLogEntry;
-        Insert: WithDefaults<AuditLogEntry, "id" | "created_at">;
-        Update: Partial<AuditLogEntry>;
+        Insert: WithDefaults<AuditLogEntry, "id" | "created_at" | "metadata">;
+        Update: never;
+      };
+      admin_users: {
+        Row: { user_id: string; created_at: string };
+        Insert: { user_id: string; created_at?: string };
+        Update: never;
       };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      is_admin: { Args: Record<string, never>; Returns: boolean };
+      user_owns_loved_one: { Args: { p_loved_one_id: string }; Returns: boolean };
+      user_owns_conversation: { Args: { p_conversation_id: string }; Returns: boolean };
+    };
     Enums: {
-      user_role: UserRole;
       message_role: MessageRole;
+      content_category: ContentCategory;
     };
   };
 }
