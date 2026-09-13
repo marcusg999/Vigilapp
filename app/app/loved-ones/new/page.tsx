@@ -7,12 +7,33 @@ import { TRANSPARENCY_NOTE } from "@/lib/guardrails";
  * frames this as "gathering what you remember," and the transparency note sits
  * at the top so the framing is set before anything is entered.
  */
-export default function NewLovedOnePage() {
+export default function NewLovedOnePage({
+  searchParams,
+}: {
+  searchParams: { error?: string };
+}) {
+  const error = searchParams.error;
+  const errorMessage =
+    error === "name"
+      ? "Please give them a name so we know who to remember."
+      : error === "save"
+        ? "We couldn't save this just now. Please try again in a moment — and if it keeps happening, it usually means the database isn't fully set up yet (see the server logs)."
+        : null;
+
   return (
     <div className="mx-auto max-w-2xl">
       <Link href="/app" className="text-sm text-mist hover:text-pearl">
         ← Back
       </Link>
+
+      {errorMessage && (
+        <p
+          role="alert"
+          className="mt-4 rounded-xl border border-candle/30 bg-night/50 px-4 py-3 text-sm text-candle-soft"
+        >
+          {errorMessage}
+        </p>
+      )}
 
       <header className="mt-4">
         <h1 className="font-display text-3xl text-pearl">
