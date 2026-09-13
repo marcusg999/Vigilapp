@@ -1,5 +1,5 @@
 /**
- * The Vigil mark: a single candle flame. Used in the header and on the landing
+ * The Pleroma mark: a single candle flame. Used in the header and on the landing
  * hero. Kept as inline SVG so it can inherit color and animate gently.
  */
 export function FlameMark({

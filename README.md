@@ -1,9 +1,9 @@
-# Vigil
+# Pleroma
 
 A quiet, sacred space to remember someone who has died — and to sit with their
 memory through a guided ritual of connection.
 
-Vigil lets a signed-in person create a profile, add a loved one, gather the
+Pleroma lets a signed-in person create a profile, add a loved one, gather the
 memories that make that person themselves, pass through a slow WebGL "connection
 ritual," and then speak with a warm AI **echo** shaped from those memories.
 People can leave written offerings, and read an education section on mourning

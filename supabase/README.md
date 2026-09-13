@@ -1,6 +1,6 @@
 # Supabase setup
 
-Vigil uses Supabase for Postgres, Auth, and Row-Level Security. The SQL in
+Pleroma uses Supabase for Postgres, Auth, and Row-Level Security. The SQL in
 `migrations/` is the source of truth for the schema and policies.
 
 ## Apply the migrations

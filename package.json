@@ -1,8 +1,8 @@
 {
-  "name": "vigilapp",
+  "name": "pleroma",
   "version": "0.1.0",
   "private": true,
-  "description": "Vigil — a sacred space for remembrance and guided connection rituals",
+  "description": "Pleroma — a sacred space for remembrance and guided connection rituals",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

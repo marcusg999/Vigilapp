@@ -11,7 +11,7 @@ export default function AuthLayout({
     <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 py-16">
       <Link href="/" className="mb-10 flex flex-col items-center gap-3">
         <FlameMark size={40} className="animate-breathe" />
-        <span className="font-display text-2xl text-pearl">Vigil</span>
+        <span className="font-display text-2xl text-pearl">Pleroma</span>
       </Link>
       <div className="w-full">{children}</div>
     </main>

@@ -19,7 +19,7 @@ export default function NewLovedOnePage() {
           Gathering what you remember
         </h1>
         <p className="mt-3 max-w-measure leading-relaxed text-mist">
-          Tell Vigil about the person you&apos;re remembering. The more you share
+          Tell Pleroma about the person you&apos;re remembering. The more you share
           — the way they spoke, what they cared about, the moments you return to
           — the more their echo will feel like them.
         </p>

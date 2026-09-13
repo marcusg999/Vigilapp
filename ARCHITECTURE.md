@@ -1,12 +1,12 @@
 # Architecture
 
-This document describes Vigil's data model, its auth and Row-Level Security
+This document describes Pleroma's data model, its auth and Row-Level Security
 (RLS) design, and where the AI is called. It's the map to keep the codebase
 "simple, effective, and readable."
 
 ## Overview
 
-Vigil is a Next.js (App Router) application backed by Supabase (Postgres, Auth,
+Pleroma is a Next.js (App Router) application backed by Supabase (Postgres, Auth,
 RLS). The browser talks to Supabase directly for the user's own data — safely,
 because RLS constrains every query to the signed-in user's rows. The Anthropic
 Claude API is reached from exactly one server route.

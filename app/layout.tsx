@@ -18,7 +18,7 @@ const body = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Vigil — a space for remembrance",
+  title: "Pleroma — a space for remembrance",
   description:
     "A quiet, sacred space to remember someone you love, and to sit with their memory through a guided ritual of connection.",
 };

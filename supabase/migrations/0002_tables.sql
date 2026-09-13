@@ -1,4 +1,4 @@
--- Vigil — 0002_tables
+-- Pleroma — 0002_tables
 -- The Phase 1 (text-only) data model. Small tables, one concern each.
 -- Every user-owned table carries a user_id so RLS stays simple and fast.
 

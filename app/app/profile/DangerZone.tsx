@@ -30,7 +30,7 @@ export function DangerZone() {
 
   return (
     <div>
-      <h2 className="font-display text-xl text-pearl">Leaving Vigil</h2>
+      <h2 className="font-display text-xl text-pearl">Leaving Pleroma</h2>
       <p className="mt-2 max-w-measure text-sm leading-relaxed text-mist">
         You can take everything with you, or close this space for good. Deleting
         your account permanently removes your profile, everyone you&apos;ve

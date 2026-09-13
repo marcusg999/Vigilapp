@@ -1,4 +1,4 @@
--- Vigil — 0003_functions_triggers
+-- Pleroma — 0003_functions_triggers
 -- Ownership helpers used by RLS, plus the triggers that keep the data tidy.
 -- These come after 0002 because they reference the tables created there.
 

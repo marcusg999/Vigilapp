@@ -1,4 +1,4 @@
--- Vigil — 0001_init_helpers
+-- Pleroma — 0001_init_helpers
 -- Extensions, the admin registry, and small helper functions used by RLS.
 -- Everything here is intentionally boring and readable: no clever tricks.
 

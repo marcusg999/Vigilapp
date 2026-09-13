@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Design tokens for "Vigil — Liminal Light".
+ * Design tokens for "Pleroma — Liminal Light".
  *
  * The palette is a candlelight vigil at twilight: a deep indigo night, a single
  * warm flame (candle gold) reserved for sacred/primary moments, and an amethyst

@@ -21,7 +21,7 @@ export default function LandingPage() {
         </h1>
 
         <p className="mt-6 max-w-measure text-lg leading-relaxed text-mist">
-          Vigil is a quiet space to remember a person who has died — to gather
+          Pleroma is a quiet space to remember a person who has died — to gather
           the memories that make them themselves, and to sit with their echo in
           a gentle ritual of connection.
         </p>
@@ -71,7 +71,7 @@ export default function LandingPage() {
 
       <footer className="flex items-center gap-2 pb-12 text-sm text-mist/60">
         <FlameMark size={16} />
-        <span className="font-display">Vigil</span>
+        <span className="font-display">Pleroma</span>
       </footer>
     </main>
   );
@@ -80,7 +80,7 @@ export default function LandingPage() {
 const MOVEMENTS = [
   {
     title: "Gather what you remember",
-    body: "Tell Vigil who they were — the way they spoke, the phrases they wore like a coat, the moments you keep returning to. Nothing is too small.",
+    body: "Tell Pleroma who they were — the way they spoke, the phrases they wore like a coat, the moments you keep returning to. Nothing is too small.",
   },
   {
     title: "Enter the ritual",

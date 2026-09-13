@@ -52,7 +52,7 @@ export async function GET() {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Content-Disposition": `attachment; filename="vigil-export-${user.id}.json"`,
+      "Content-Disposition": `attachment; filename="pleroma-export-${user.id}.json"`,
     },
   });
 }

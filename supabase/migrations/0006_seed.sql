@@ -1,4 +1,4 @@
--- Vigil — 0006_seed  (OPTIONAL)
+-- Pleroma — 0006_seed  (OPTIONAL)
 -- A few published education entries so "Traditions" isn't empty on first run.
 -- Safe to re-run: each row is skipped if a content item with the same title
 -- already exists. Matches the content_items shape from 0002_tables.sql

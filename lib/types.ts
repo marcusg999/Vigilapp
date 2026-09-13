@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript shapes for the Vigil data model.
+ * Shared TypeScript shapes for the Pleroma data model.
  *
  * This mirrors the SQL in `supabase/migrations` (0002_tables.sql) exactly.
  * It is hand-written so the whole app has one small, readable source of truth

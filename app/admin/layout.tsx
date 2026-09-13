@@ -20,7 +20,7 @@ export default async function AdminLayout({
         <nav className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
             <FlameMark size={20} />
-            <span className="font-display text-lg text-pearl">Vigil</span>
+            <span className="font-display text-lg text-pearl">Pleroma</span>
             <span className="ml-2 rounded-full border border-candle/30 px-2 py-0.5 text-xs text-candle-soft">
               Admin
             </span>

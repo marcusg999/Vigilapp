@@ -40,7 +40,7 @@ export default async function RemembrancePage() {
             This space is quiet, and waiting.
           </p>
           <p className="mx-auto mt-3 max-w-measure text-mist">
-            When you&apos;re ready, tell Vigil about someone you love and miss.
+            When you&apos;re ready, tell Pleroma about someone you love and miss.
             You&apos;ll gather a few memories, and a place to return to will take
             shape here.
           </p>

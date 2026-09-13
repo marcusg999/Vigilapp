@@ -1,4 +1,4 @@
--- Vigil — 0005_storage  (OPTIONAL)
+-- Pleroma — 0005_storage  (OPTIONAL)
 -- A private bucket for loved-one avatars. Phase 1 is text-only, so you can skip
 -- this until you add avatar upload — but the policies are here and vetted.
 --

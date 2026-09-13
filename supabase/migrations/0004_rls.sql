@@ -1,4 +1,4 @@
--- Vigil — 0004_rls
+-- Pleroma — 0004_rls
 -- Row-Level Security. This is the heart of the app's trust model.
 --
 -- Rules of thumb encoded below:
