@@ -1,20 +1,22 @@
 import Link from "next/link";
 import { FlameMark } from "@/components/brand/FlameMark";
+import { ThresholdMark } from "@/components/brand/ThresholdMark";
 import { TRANSPARENCY_NOTE } from "@/lib/guardrails";
 
 /**
  * Landing page. The hero opens on the most characteristic thing in this app's
- * world: a single flame held in the dark. Everything is centered and given
- * room to breathe — reverence expressed as space rather than decoration.
+ * world: a flame at the center of a threshold of light — a preview of the
+ * connection ritual. Everything else is given room to breathe; reverence is
+ * expressed as space and light rather than decoration.
  */
 export default function LandingPage() {
   return (
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col items-center px-6">
       {/* Hero */}
-      <section className="flex flex-1 flex-col items-center justify-center py-24 text-center">
-        <FlameMark size={64} className="animate-breathe drop-shadow-[0_0_24px_rgba(240,192,102,0.5)]" />
+      <section className="flex flex-1 flex-col items-center justify-center py-20 text-center">
+        <ThresholdMark size={240} />
 
-        <h1 className="mt-10 font-display text-4xl font-normal leading-[1.15] text-pearl sm:text-6xl">
+        <h1 className="-mt-2 font-display text-4xl font-normal leading-[1.12] text-pearl sm:text-6xl">
           Sit a while with
           <br />
           someone you love.

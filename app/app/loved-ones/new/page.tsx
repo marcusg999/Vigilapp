@@ -25,9 +25,7 @@ export default function NewLovedOnePage() {
         </p>
       </header>
 
-      <p className="mt-6 rounded-xl bg-night/50 p-4 text-sm leading-relaxed text-mist/90">
-        {TRANSPARENCY_NOTE}
-      </p>
+      <p className="note-quote mt-6">{TRANSPARENCY_NOTE}</p>
 
       <form action={createLovedOne} className="mt-8 space-y-8">
         {/* Who they were */}

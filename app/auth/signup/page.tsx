@@ -76,9 +76,7 @@ export default function SignupPage() {
       </p>
 
       {/* Soft transparency, set before anyone begins. */}
-      <p className="mt-5 rounded-xl bg-night/50 p-4 text-sm leading-relaxed text-mist/90">
-        {TRANSPARENCY_NOTE}
-      </p>
+      <p className="note-quote mt-5">{TRANSPARENCY_NOTE}</p>
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
         <div>
@@ -143,7 +141,7 @@ export default function SignupPage() {
         <button
           type="submit"
           disabled={pending || !ack}
-          className="btn-candle w-full disabled:opacity-50"
+          className="btn-candle w-full"
         >
           {pending ? "Creating your space…" : "Create my space"}
         </button>
