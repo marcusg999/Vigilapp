@@ -13,9 +13,10 @@ export async function updateDisplayName(formData: FormData) {
   } = await supabase.auth.getUser();
   if (!user) return;
 
+  // display_name is NOT NULL (defaults to ''); an empty string clears it.
   await supabase
     .from("profiles")
-    .update({ display_name: displayName || null })
+    .update({ display_name: displayName })
     .eq("id", user.id);
 
   revalidatePath("/app/profile");

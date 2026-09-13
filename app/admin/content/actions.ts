@@ -9,9 +9,10 @@ import type { ContentCategory } from "@/lib/types";
 
 /** Read + normalize the content form fields. */
 function readForm(formData: FormData) {
-  const category = String(formData.get("category") ?? "ritual") as ContentCategory;
+  const raw = String(formData.get("category") ?? "ritual");
+  const category: ContentCategory = raw === "nde" ? "nde" : "ritual";
   return {
-    category: category === "nde" ? "nde" : "ritual",
+    category,
     title: String(formData.get("title") ?? "").trim(),
     body: String(formData.get("body") ?? "").trim(),
     region: String(formData.get("region") ?? "").trim() || null,

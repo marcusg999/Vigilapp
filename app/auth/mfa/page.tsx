@@ -50,8 +50,9 @@ export default function MfaPage() {
         return;
       }
 
-      // Clear any half-finished (unverified) factors so enroll gives a fresh QR.
-      for (const f of data.totp.filter((f) => f.status === "unverified")) {
+      // Clear any half-finished (not-yet-verified) factors so enroll gives a
+      // fresh QR.
+      for (const f of data.totp.filter((f) => f.status !== "verified")) {
         await supabase.auth.mfa.unenroll({ factorId: f.id });
       }
 

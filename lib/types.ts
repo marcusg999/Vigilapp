@@ -13,14 +13,14 @@
 export type MessageRole = "user" | "assistant";
 export type ContentCategory = "ritual" | "nde";
 
-export interface Profile {
+export type Profile = {
   id: string; // = auth.users.id
   display_name: string;
   created_at: string;
   updated_at: string;
 }
 
-export interface LovedOne {
+export type LovedOne = {
   id: string;
   user_id: string;
   name: string;
@@ -32,7 +32,7 @@ export interface LovedOne {
   updated_at: string;
 }
 
-export interface PersonaConfig {
+export type PersonaConfig = {
   id: string;
   loved_one_id: string;
   user_id: string;
@@ -46,7 +46,7 @@ export interface PersonaConfig {
   updated_at: string;
 }
 
-export interface Memory {
+export type Memory = {
   id: string;
   loved_one_id: string;
   user_id: string;
@@ -54,7 +54,7 @@ export interface Memory {
   created_at: string;
 }
 
-export interface Conversation {
+export type Conversation = {
   id: string;
   loved_one_id: string;
   user_id: string;
@@ -63,7 +63,7 @@ export interface Conversation {
   updated_at: string;
 }
 
-export interface Message {
+export type Message = {
   id: string;
   conversation_id: string;
   user_id: string;
@@ -72,7 +72,7 @@ export interface Message {
   created_at: string;
 }
 
-export interface Offering {
+export type Offering = {
   id: string;
   loved_one_id: string;
   user_id: string;
@@ -80,7 +80,7 @@ export interface Offering {
   created_at: string;
 }
 
-export interface ContentItem {
+export type ContentItem = {
   id: string;
   category: ContentCategory;
   title: string;
@@ -93,7 +93,7 @@ export interface ContentItem {
   updated_at: string;
 }
 
-export interface AuditLogEntry {
+export type AuditLogEntry = {
   id: number;
   actor: string | null;
   action: string; // e.g. "content.create"
@@ -104,30 +104,37 @@ export interface AuditLogEntry {
 }
 
 /**
- * Minimal Database type compatible with @supabase/ssr generics. Insert/Update
- * loosen columns that have DB defaults (ids, timestamps, defaulted text).
+ * Database type compatible with @supabase/ssr generics. Insert loosens columns
+ * that have DB defaults (ids, timestamps, defaulted text). The `Table` helper
+ * supplies the `Relationships` member supabase-js requires so queries stay
+ * typed rather than degrading to `never`.
  */
 type WithDefaults<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
-export interface Database {
+type Table<Row, Insert> = {
+  Row: Row;
+  Insert: Insert;
+  Update: Partial<Row>;
+  Relationships: [];
+};
+
+export type Database = {
   public: {
     Tables: {
-      profiles: {
-        Row: Profile;
-        Insert: WithDefaults<Profile, "created_at" | "updated_at" | "display_name">;
-        Update: Partial<Profile>;
-      };
-      loved_ones: {
-        Row: LovedOne;
-        Insert: WithDefaults<
+      profiles: Table<
+        Profile,
+        WithDefaults<Profile, "created_at" | "updated_at" | "display_name">
+      >;
+      loved_ones: Table<
+        LovedOne,
+        WithDefaults<
           LovedOne,
           "id" | "created_at" | "updated_at" | "bio" | "born_on" | "died_on" | "avatar_path"
-        >;
-        Update: Partial<LovedOne>;
-      };
-      persona_configs: {
-        Row: PersonaConfig;
-        Insert: WithDefaults<
+        >
+      >;
+      persona_configs: Table<
+        PersonaConfig,
+        WithDefaults<
           PersonaConfig,
           | "id"
           | "created_at"
@@ -138,47 +145,30 @@ export interface Database {
           | "tone"
           | "topics_to_favor"
           | "topics_to_avoid"
-        >;
-        Update: Partial<PersonaConfig>;
-      };
-      memories: {
-        Row: Memory;
-        Insert: WithDefaults<Memory, "id" | "created_at">;
-        Update: Partial<Memory>;
-      };
-      conversations: {
-        Row: Conversation;
-        Insert: WithDefaults<Conversation, "id" | "created_at" | "updated_at" | "title">;
-        Update: Partial<Conversation>;
-      };
-      messages: {
-        Row: Message;
-        Insert: WithDefaults<Message, "id" | "created_at">;
-        Update: Partial<Message>;
-      };
-      offerings: {
-        Row: Offering;
-        Insert: WithDefaults<Offering, "id" | "created_at">;
-        Update: Partial<Offering>;
-      };
-      content_items: {
-        Row: ContentItem;
-        Insert: WithDefaults<
+        >
+      >;
+      memories: Table<Memory, WithDefaults<Memory, "id" | "created_at">>;
+      conversations: Table<
+        Conversation,
+        WithDefaults<Conversation, "id" | "created_at" | "updated_at" | "title">
+      >;
+      messages: Table<Message, WithDefaults<Message, "id" | "created_at">>;
+      offerings: Table<Offering, WithDefaults<Offering, "id" | "created_at">>;
+      content_items: Table<
+        ContentItem,
+        WithDefaults<
           ContentItem,
           "id" | "created_at" | "updated_at" | "published" | "created_by" | "body"
-        >;
-        Update: Partial<ContentItem>;
-      };
-      audit_log: {
-        Row: AuditLogEntry;
-        Insert: WithDefaults<AuditLogEntry, "id" | "created_at" | "metadata">;
-        Update: never;
-      };
-      admin_users: {
-        Row: { user_id: string; created_at: string };
-        Insert: { user_id: string; created_at?: string };
-        Update: never;
-      };
+        >
+      >;
+      audit_log: Table<
+        AuditLogEntry,
+        WithDefaults<AuditLogEntry, "id" | "created_at" | "metadata">
+      >;
+      admin_users: Table<
+        { user_id: string; created_at: string },
+        { user_id: string; created_at?: string }
+      >;
     };
     Views: Record<string, never>;
     Functions: {
@@ -190,5 +180,6 @@ export interface Database {
       message_role: MessageRole;
       content_category: ContentCategory;
     };
+    CompositeTypes: Record<string, never>;
   };
 }
