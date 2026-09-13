@@ -47,7 +47,7 @@ Many cultures mark passage with light. A candle, a lantern, a flame kept burning
 
 What these reports offer the grieving is not certainty but company — the sense that the threshold between living and dying has been approached before, and often met with calm rather than terror.$body$,
     'Global',
-    'https://www.youtube.com/watch?v=xdMPuBQXTfg',
+    null, -- curate a real video in the admin; no placeholder embed
     true
   )
 ) as v(category, title, body, region, youtube_url, published)

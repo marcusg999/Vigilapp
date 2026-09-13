@@ -6,33 +6,35 @@ import * as THREE from "three";
 import { LAYER_VERTEX, LAYER_FRAGMENT, AURORA_RGB, CANDLE_RGB } from "./shaders";
 
 /**
- * A handful of large, translucent shells the journey passes through — the
- * "dimensional layers." Each is a big plane facing the camera with a shimmering
- * radial glow; as they drift toward the viewer and wrap back, crossing one
- * reads as passing a soft threshold of light.
- *
- * Kept few (LAYERS) and additive so they layer into a glow rather than a wall.
+ * The dimensional layers: translucent, additive shells the journey passes
+ * through — read as luminous gates. They drift toward the camera and wrap back;
+ * as the ritual nears arrival they accelerate and flare brighter (uWarp) and
+ * warm toward candle gold (uWarm), so crossing the final gates feels like
+ * breaking into light. Driven from the shared r3f clock and the ritual
+ * `duration`.
  */
-const LAYERS = 5;
-const DEPTH = 20;
-const SPEED = 1.4;
+const LAYERS = 7;
+const DEPTH = 22;
 
-export function DimensionalLayers() {
+function smoothstep(e0: number, e1: number, x: number) {
+  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+  return t * t * (3 - 2 * t);
+}
+
+export function DimensionalLayers({ duration }: { duration: number }) {
   const group = useRef<THREE.Group>(null);
+  const travel = useRef(0);
 
-  // One config per shell: its starting depth, size, and colour. Alternating
-  // colours give the layers a little variety without becoming busy.
   const shells = useMemo(
     () =>
       Array.from({ length: LAYERS }, (_, i) => ({
         baseZ: -(i / LAYERS) * DEPTH,
-        scale: 9 + i * 1.5,
+        scale: 8 + i * 1.4,
         color: new THREE.Color().fromArray(i % 3 === 0 ? CANDLE_RGB : AURORA_RGB),
       })),
     [],
   );
 
-  // Each shell needs its own material instance so uTime can advance per-mesh.
   const materials = useMemo(
     () =>
       shells.map(
@@ -41,8 +43,10 @@ export function DimensionalLayers() {
             vertexShader: LAYER_VERTEX,
             fragmentShader: LAYER_FRAGMENT,
             uniforms: {
-              uTime: { value: Math.random() * 10 }, // desync the shimmer
+              uTime: { value: Math.random() * 10 },
               uColor: { value: s.color },
+              uWarm: { value: 0 },
+              uWarp: { value: 0 },
             },
             transparent: true,
             depthWrite: false,
@@ -54,12 +58,17 @@ export function DimensionalLayers() {
 
   useFrame((state, delta) => {
     if (!group.current) return;
-    const t = state.clock.elapsedTime;
+    const p = Math.min(state.clock.elapsedTime / duration, 1);
+    const warp = smoothstep(0.6, 1.0, p);
+    const warm = smoothstep(0.5, 1.0, p);
+    travel.current += delta * (1.4 + warp * 9.0);
+
     group.current.children.forEach((child, i) => {
-      // Advance the shimmer.
-      materials[i].uniforms.uTime.value += delta;
-      // Drift toward the camera and wrap back to the far plane.
-      const z = ((shells[i].baseZ + t * SPEED) % DEPTH) - DEPTH;
+      const mat = materials[i];
+      mat.uniforms.uTime.value += delta;
+      mat.uniforms.uWarm.value = warm;
+      mat.uniforms.uWarp.value = warp;
+      const z = ((shells[i].baseZ + travel.current) % DEPTH) - DEPTH;
       child.position.z = z;
     });
   });

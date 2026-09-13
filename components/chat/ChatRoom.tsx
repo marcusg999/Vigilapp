@@ -96,7 +96,7 @@ export function ChatRoom({
             <div
               className={
                 t.role === "user"
-                  ? "max-w-[85%] rounded-2xl bg-veil-2/70 px-5 py-3 text-pearl"
+                  ? "max-w-[85%] rounded-2xl border border-pearl/10 bg-veil-2/40 px-5 py-3 text-pearl shadow-[inset_0_1px_0_rgba(236,231,251,0.1)] backdrop-blur-md"
                   : "max-w-[85%] px-1 py-1"
               }
             >
@@ -123,7 +123,16 @@ export function ChatRoom({
 
       {error && <p className="mt-4 text-sm text-candle-soft">{error}</p>}
 
-      <form onSubmit={send} className="sticky bottom-0 mt-6 bg-night/80 py-4 backdrop-blur">
+      <form
+        onSubmit={send}
+        className="sticky bottom-0 mt-6 rounded-2xl px-3 py-3"
+        style={{
+          background: "rgba(14,16,48,0.55)",
+          backdropFilter: "blur(20px) saturate(1.3)",
+          WebkitBackdropFilter: "blur(20px) saturate(1.3)",
+          border: "1px solid rgba(236,231,251,0.08)",
+        }}
+      >
         <div className="flex items-end gap-3">
           <textarea
             value={draft}
