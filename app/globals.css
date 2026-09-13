@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Base atmosphere. The whole app lives at night: a deep indigo ground with a
+ * faint candle-warm glow drifting up from below, so content feels held in a
+ * quiet, lit space rather than floating on flat black.
+ */
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: theme("colors.night");
+  background-image:
+    radial-gradient(
+      120% 80% at 50% 100%,
+      rgba(240, 192, 102, 0.08) 0%,
+      rgba(14, 16, 48, 0) 55%
+    ),
+    radial-gradient(
+      100% 70% at 50% 0%,
+      rgba(158, 140, 230, 0.1) 0%,
+      rgba(14, 16, 48, 0) 60%
+    );
+  background-attachment: fixed;
+  color: theme("colors.pearl");
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  /* A hairline rule that fades to nothing at both ends — our divider instead
+     of hard borders or cards. */
+  .rule-fade {
+    height: 1px;
+    border: 0;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgba(158, 140, 230, 0.35),
+      transparent
+    );
+  }
+
+  /* The single sacred action. Candlelight, reserved for primary/ritual CTAs. */
+  .btn-candle {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3
+      font-sans text-sm font-medium tracking-wide text-night
+      transition-[transform,box-shadow] duration-300;
+    background: linear-gradient(180deg, theme("colors.candle-soft"), theme("colors.candle"));
+    box-shadow: theme("boxShadow.glow");
+  }
+  .btn-candle:hover {
+    box-shadow: 0 0 52px -6px rgba(240, 192, 102, 0.55);
+    transform: translateY(-1px);
+  }
+
+  /* Quiet secondary action — a thin luminous outline, no fill. */
+  .btn-quiet {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3
+      font-sans text-sm font-medium tracking-wide text-pearl
+      transition-colors duration-300;
+    border: 1px solid rgba(158, 140, 230, 0.3);
+  }
+  .btn-quiet:hover {
+    border-color: rgba(158, 140, 230, 0.6);
+    background: rgba(158, 140, 230, 0.08);
+  }
+
+  /* A raised surface: the veil, lifted a little out of the night. */
+  .surface {
+    @apply rounded-2xl bg-veil/60 backdrop-blur-sm;
+    border: 1px solid rgba(158, 140, 230, 0.12);
+  }
+
+  .field {
+    @apply w-full rounded-xl bg-night/60 px-4 py-3 font-sans text-pearl
+      placeholder:text-mist/60 outline-none transition-colors;
+    border: 1px solid rgba(158, 140, 230, 0.18);
+  }
+  .field:focus {
+    border-color: rgba(240, 192, 102, 0.5);
+  }
+
+  .label {
+    @apply mb-2 block font-sans text-sm text-mist;
+  }
+}
+
+/* Respect people who ask for less motion — grief is not a place to override
+   accessibility preferences. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
