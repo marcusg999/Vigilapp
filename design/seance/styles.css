@@ -1,0 +1,163 @@
+/* Pleroma — "Séance Parlour, brutalist key"
+   concrete + black + one safety-orange flame · Didone display + humanist sans */
+
+@font-face { font-family:"Bodoni Moda"; font-weight:500; font-style:normal;
+  src:url("./vendor/fonts/bodoni-moda-latin-500-normal.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"Bodoni Moda"; font-weight:700; font-style:normal;
+  src:url("./vendor/fonts/bodoni-moda-latin-700-normal.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"Bodoni Moda"; font-weight:900; font-style:normal;
+  src:url("./vendor/fonts/bodoni-moda-latin-900-normal.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"Bodoni Moda"; font-weight:700; font-style:italic;
+  src:url("./vendor/fonts/bodoni-moda-latin-700-italic.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"Instrument Sans"; font-weight:400; font-style:normal;
+  src:url("./vendor/fonts/instrument-sans-latin-400-normal.woff2") format("woff2"); font-display:swap; }
+@font-face { font-family:"Instrument Sans"; font-weight:500; font-style:normal;
+  src:url("./vendor/fonts/instrument-sans-latin-500-normal.woff2") format("woff2"); font-display:swap; }
+
+:root{
+  --black:#07070a;
+  --ink:#edeae3;
+  --dim:#c9c5bc;
+  --concrete:#8a8681;
+  --concrete-deep:#26251f;
+  --orange:#ff5a1f;
+  --orange-soft:#ff8a4c;
+  --measure:66ch;
+}
+
+*{ box-sizing:border-box; }
+html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+body{
+  margin:0; background:var(--black); color:var(--ink);
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  overflow-x:hidden; -webkit-font-smoothing:antialiased;
+}
+
+/* layered canvases */
+#gl,#fx{ position:fixed; inset:0; width:100%; height:100%; display:block; }
+#gl{ z-index:0; }
+#fx{ z-index:1; pointer-events:none; }
+main{ position:relative; z-index:2; }
+
+/* a darkened pool behind every text block so copy stays legible over the 3D */
+.chapter,.end{ position:relative; }
+.chapter::before,.end::before{
+  content:""; position:absolute; inset:-6vh -10vw; z-index:-1;
+  background:radial-gradient(130% 120% at 28% 38%, rgba(7,7,10,.9), rgba(7,7,10,.58) 60%, rgba(7,7,10,.2));
+}
+
+/* ---------- HERO ---------- */
+.hero{ height:320vh; }
+.hero-stage{
+  position:sticky; top:0; height:100svh;
+  display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+  padding:0 8vw; opacity:clamp(0, calc(1 - var(--p,0) * 1.3), 1);
+}
+.kicker{
+  margin:0 0 1.4rem; font-size:.72rem; letter-spacing:.52em; text-transform:uppercase;
+  color:var(--orange);
+}
+h1{
+  margin:0; font-family:"Bodoni Moda",Georgia,serif; font-weight:900;
+  font-size:clamp(3.4rem,13.5vw,13rem); line-height:.86; letter-spacing:-.035em;
+  color:var(--ink); text-shadow:0 8px 60px rgba(0,0,0,.6);
+}
+.lede{
+  margin:2rem 0 0; max-width:20ch;
+  font-family:"Bodoni Moda",Georgia,serif; font-weight:500; font-style:italic;
+  font-size:clamp(1.3rem,3vw,2.3rem); line-height:1.12; color:var(--dim);
+}
+.scroll-cue{
+  margin-top:3.5rem; font-size:.72rem; letter-spacing:.5em; text-transform:uppercase;
+  color:var(--concrete);
+}
+.scroll-cue::after{ content:""; display:block; width:1px; height:46px; margin-top:.9rem;
+  background:linear-gradient(var(--orange),transparent); }
+
+/* ---------- CHAPTERS ---------- */
+.chapter{ max-width:1180px; margin:0 auto; padding:20vh 8vw; }
+.chapter.offset{ padding-top:36vh; }       /* broken rhythm, not uniform */
+.chapter-head{ display:flex; gap:clamp(1rem,3vw,2.5rem); align-items:flex-start; }
+.num{
+  font-family:"Bodoni Moda",Georgia,serif; font-weight:900; color:var(--orange);
+  font-size:clamp(3rem,9vw,8rem); line-height:.72;
+}
+.chapter-head h2{
+  margin:0; font-family:"Bodoni Moda",Georgia,serif; font-weight:900;
+  font-size:clamp(2.6rem,8vw,6.6rem); line-height:.9; letter-spacing:-.02em; color:var(--ink);
+}
+.cols{
+  margin-top:clamp(2rem,5vw,3.4rem); max-width:74ch;
+  columns:2; column-gap:3.2rem;
+}
+.cols p{
+  margin:0 0 1.25rem; font-size:clamp(1rem,1.25vw,1.15rem); line-height:1.72; color:var(--dim);
+  break-inside:avoid-column;
+}
+.cols em{ font-family:"Bodoni Moda",Georgia,serif; font-style:italic; color:var(--orange); }
+blockquote{
+  margin:clamp(5vh,9vh,10vh) 0 0; max-width:17ch; padding-left:1.1rem;
+  border-left:5px solid var(--orange);
+  font-family:"Bodoni Moda",Georgia,serif; font-style:italic; font-weight:700;
+  font-size:clamp(1.8rem,5vw,3.4rem); line-height:1.08; color:var(--orange-soft);
+}
+
+/* ---------- END ---------- */
+.end{
+  position:relative; min-height:100svh;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  text-align:center; padding:14vh 8vw; overflow:hidden;
+}
+.end-title{
+  margin:0; font-family:"Bodoni Moda",Georgia,serif; font-weight:900;
+  font-size:clamp(3rem,13vw,11rem); line-height:.85; letter-spacing:-.02em;
+}
+.cta{
+  margin-top:2.4rem; padding:1rem 2.1rem; border:2px solid var(--orange); color:var(--ink);
+  text-decoration:none; font-weight:500; letter-spacing:.01em;
+  transition:background .25s, color .25s;
+}
+.cta:hover{ background:var(--orange); color:#140a04; }
+.fineprint{ max-width:58ch; margin:3.4rem 0 0; color:var(--concrete); font-size:.9rem; line-height:1.65; }
+.mark-word{
+  position:absolute; left:50%; bottom:-3.5vh; transform:translateX(-50%);
+  margin:0; z-index:-1; pointer-events:none; white-space:nowrap;
+  font-family:"Bodoni Moda",Georgia,serif; font-weight:900;
+  font-size:clamp(5rem,22vw,18rem); line-height:.8; letter-spacing:.04em;
+  color:rgba(237,234,227,.05); user-select:none;
+}
+
+/* ---------- CHAPTER RAIL + morphing ember (View Transitions) ---------- */
+#rail{
+  position:fixed; right:2.3vw; top:50%; transform:translateY(-50%); z-index:5;
+  display:flex; flex-direction:column; gap:1.5rem;
+}
+#rail a{
+  position:relative; width:2rem; height:2rem; display:grid; place-items:center;
+  text-decoration:none; color:var(--concrete);
+  font-family:"Bodoni Moda",Georgia,serif; font-size:.95rem; font-style:italic;
+}
+#rail a .mark{ width:7px; height:7px; border-radius:50%; border:1px solid var(--concrete); }
+#rail a.active{ color:var(--ink); }
+.ember{
+  position:absolute; inset:-6px; border-radius:50%;
+  border:1px solid var(--orange); box-shadow:0 0 16px var(--orange), inset 0 0 8px rgba(255,90,31,.5);
+  view-transition-name:ember; pointer-events:none;
+}
+::view-transition-old(ember),::view-transition-new(ember){ animation-duration:.55s; }
+
+/* ---------- responsive ---------- */
+@media (max-width:720px){
+  .cols{ columns:1; }
+  #rail{ display:none; }            /* ember morph is a desktop delight; frees the right edge on mobile */
+  .hero-stage{ padding:0 6vw; }
+  .chapter{ padding:14vh 6vw; }
+  .chapter.offset{ padding-top:20vh; }
+  blockquote{ max-width:none; }
+  .end-title{ font-size:clamp(2.6rem,15vw,5rem); }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{ scroll-behavior:auto; }
+  .scroll-cue::after{ display:none; }
+}
