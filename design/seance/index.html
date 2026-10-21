@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pleroma — a chapel for one light</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script type="importmap">
+      { "imports": { "three": "./vendor/three.module.js" } }
+    </script>
+  </head>
+  <body>
+    <!-- Technique 1: real WebGL fly-through, scroll-scrubbed as the hero -->
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <!-- Technique 3: live generative backdrop (ash + concrete grain) -->
+    <canvas id="fx" aria-hidden="true"></canvas>
+
+    <!-- chapter rail — the orange ember MORPHS between marks (view transitions) -->
+    <nav id="rail" aria-label="Chapters">
+      <a href="#i" data-i="0"><span class="mark"></span><em>I</em></a>
+      <a href="#ii" data-i="1"><span class="mark"></span><em>II</em></a>
+      <a href="#iii" data-i="2"><span class="mark"></span><em>III</em></a>
+      <a href="#end" data-i="3"><span class="mark"></span><em>·</em></a>
+    </nav>
+
+    <main>
+      <!-- HERO: tall, so the fly-through has scroll room. Title is sticky. -->
+      <section class="hero">
+        <div class="hero-stage">
+          <p class="kicker">Est. in remembrance</p>
+          <h1>PLEROMA</h1>
+          <p class="lede">
+            A chapel for the one light<br />that will not go out.
+          </p>
+          <p class="scroll-cue">descend</p>
+        </div>
+      </section>
+
+      <!-- I -->
+      <section id="i" class="chapter">
+        <header class="chapter-head">
+          <span class="num">I</span>
+          <h2>Gather<br />the light</h2>
+        </header>
+        <div class="cols">
+          <p>
+            Grief is not a thing to be solved. It is a room you keep
+            walking back into. Pleroma gives that room a threshold — and asks
+            you, first, to bring what you remember: the way they said your
+            name, the phrase they wore like a coat, the Tuesday that keeps
+            returning to you.
+          </p>
+          <p>
+            Nothing you bring is too small. The smallest detail — how they held
+            a cup, what made them laugh before they meant to — is the light we
+            gather on the table. From it, an <em>echo</em> takes shape: warm,
+            familiar, patient.
+          </p>
+        </div>
+        <blockquote>
+          Not a voice from beyond. A reflection, cast from what you carry.
+        </blockquote>
+      </section>
+
+      <!-- II -->
+      <section id="ii" class="chapter offset">
+        <header class="chapter-head">
+          <span class="num">II</span>
+          <h2>Cross<br />the threshold</h2>
+        </header>
+        <div class="cols">
+          <p>
+            When you are ready — not before — a slow passage of light carries
+            you inward. The day falls away. The concrete goes quiet. Ahead,
+            across the dark, a single flame on a plain table marks the place
+            where remembrance is kept.
+          </p>
+          <p>
+            This is the ritual, and it asks almost nothing of you: only that you
+            come, and that you stay as long as the staying helps. The threshold
+            is not a door to the dead. It is a door to your own attention.
+          </p>
+        </div>
+      </section>
+
+      <!-- III -->
+      <section id="iii" class="chapter">
+        <header class="chapter-head">
+          <span class="num">III</span>
+          <h2>Sit<br />together</h2>
+        </header>
+        <div class="cols">
+          <p>
+            You speak. The echo answers in the cadence you taught it — never
+            claiming to be them, never promising what it cannot know. It will
+            not predict your future or report from an afterlife. It will sit
+            with you, in their remembered warmth, for as long as you need.
+          </p>
+          <p>
+            And when you rise to go, you may leave an offering: a line, a
+            thanks, a goodbye you never got to say. It stays on the table.
+            The flame stays lit.
+          </p>
+        </div>
+        <blockquote>
+          If the dark ever closes in, the light steps aside and points you to a
+          living hand — call or text 988, any hour.
+        </blockquote>
+      </section>
+
+      <!-- END -->
+      <section id="end" class="end">
+        <h2 class="end-title">Keep a vigil.</h2>
+        <a class="cta" href="#">Begin — it costs nothing but honesty</a>
+        <p class="fineprint">
+          Pleroma is symbolic remembrance, not contact with the dead. What you
+          meet is an echo shaped from the memories you choose to share, offered
+          for comfort. Take it gently, and at your own pace.
+        </p>
+        <p class="mark-word">PLEROMA</p>
+      </section>
+    </main>
+
+    <script type="module" src="./scene.js"></script>
+    <script type="module" src="./ui.js"></script>
+  </body>
+</html>
