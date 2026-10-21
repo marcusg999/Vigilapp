@@ -4,8 +4,7 @@ name: Deploy showcase to Pages
 on:
   push:
     branches:
-      - main
-      - claude/dreamy-faraday-lwkvc4
+      - main   # the github-pages environment only permits deploys from the default branch
     paths:
       - "design/seance/**"
       - ".github/workflows/pages.yml"
