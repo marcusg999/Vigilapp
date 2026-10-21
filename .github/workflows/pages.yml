@@ -1,0 +1,47 @@
+name: Deploy showcase to Pages
+
+# Publishes design/seance/ as the site root → https://marcusg999.github.io/Vigilapp/
+on:
+  push:
+    branches:
+      - main
+      - claude/dreamy-faraday-lwkvc4
+    paths:
+      - "design/seance/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+# Least-privilege token scopes required by the Pages deploy actions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never run two Pages deploys at once; newest wins
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true   # turns on Pages (GitHub Actions source) on first run
+
+      - name: Upload showcase as the Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: design/seance   # becomes the site root; bypasses Jekyll
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
