@@ -138,8 +138,10 @@ on the server. `app/ritual-preview` renders it in isolation for design review.
 
 ## Design system
 
-Tokens live in `tailwind.config.ts` and `app/globals.css`: a twilight-indigo
-night, a single candle-gold accent reserved for sacred/primary actions, and an
-amethyst "aurora" glow. Type is Fraunces (display) + Instrument Sans (body).
-Hierarchy comes from space and light (fading hairline rules, glows) rather than
-boxed cards.
+Tokens live in `tailwind.config.ts` and `app/globals.css`: a "séance, brutalist
+key" — a near-black concrete ground, raw concrete surfaces, and a single
+safety-orange ember reserved for sacred/primary actions (the flame, the one
+CTA). Type is Bodoni Moda (a high-contrast Didone display) + Instrument Sans
+(body). The token names (night/veil/candle/aurora/pearl/mist) are retained so
+the whole app re-skins from these two files. Hierarchy comes from space, weight,
+and that one light (fading hairline rules, glows) rather than boxed cards.

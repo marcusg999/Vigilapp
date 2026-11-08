@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans } from "next/font/google";
+import { Bodoni_Moda, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
-// Display: a soulful, literary serif — tender rather than grand.
-const display = Fraunces({
+// Display: a high-contrast Didone — severe and luminous, carved rather than
+// written. The séance key: concrete and night lit by one flame.
+const display = Bodoni_Moda({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
-  axes: ["opsz", "SOFT"],
 });
 
 // Body/UI: a calm humanist sans that stays quiet next to the serif.

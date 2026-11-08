@@ -127,7 +127,7 @@ export function ChatRoom({
         onSubmit={send}
         className="sticky bottom-0 mt-6 rounded-2xl px-3 py-3"
         style={{
-          background: "rgba(14,16,48,0.55)",
+          background: "rgba(9,9,11,0.6)",
           backdropFilter: "blur(20px) saturate(1.3)",
           WebkitBackdropFilter: "blur(20px) saturate(1.3)",
           border: "1px solid rgba(236,231,251,0.08)",

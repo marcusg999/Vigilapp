@@ -27,7 +27,7 @@ export function ThresholdMark({ size = 300 }: { size?: number }) {
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      {/* Slow-turning amethyst aura behind everything */}
+      {/* Slow-turning concrete/ember aura behind everything */}
       <div
         className="kindle absolute inset-0 grid place-items-center"
       >
@@ -38,18 +38,18 @@ export function ThresholdMark({ size = 300 }: { size?: number }) {
             height: "78%",
             borderRadius: "9999px",
             background:
-              "conic-gradient(from 0deg, rgba(158,140,230,0) 0deg, rgba(158,140,230,0.16) 70deg, rgba(240,192,102,0.14) 150deg, rgba(158,140,230,0) 240deg, rgba(158,140,230,0) 360deg)",
+              "conic-gradient(from 0deg, rgba(138,134,129,0) 0deg, rgba(138,134,129,0.14) 70deg, rgba(255,90,31,0.16) 150deg, rgba(138,134,129,0) 240deg, rgba(138,134,129,0) 360deg)",
             filter: "blur(14px)",
           }}
         />
       </div>
 
-      {/* Warm candle bloom */}
+      {/* Warm ember bloom */}
       <div
         className="kindle absolute inset-0"
         style={{
           background:
-            "radial-gradient(circle at 50% 50%, rgba(240,192,102,0.24) 0%, rgba(158,140,230,0.12) 32%, rgba(14,16,48,0) 66%)",
+            "radial-gradient(circle at 50% 50%, rgba(255,90,31,0.26) 0%, rgba(138,134,129,0.1) 32%, rgba(7,7,10,0) 66%)",
         }}
       />
 
@@ -66,7 +66,7 @@ export function ThresholdMark({ size = 300 }: { size?: number }) {
             cy="120"
             r={ring.r}
             className="ring-in"
-            stroke="#9E8CE6"
+            stroke="#8A8681"
             strokeWidth="1"
             style={{
               ["--ring-opacity" as string]: ring.o,
@@ -80,7 +80,7 @@ export function ThresholdMark({ size = 300 }: { size?: number }) {
       <div className="kindle relative">
         <FlameMark
           size={Math.round(size * 0.17)}
-          className="animate-breathe drop-shadow-[0_0_30px_rgba(240,192,102,0.65)]"
+          className="animate-breathe drop-shadow-[0_0_30px_rgba(255,90,31,0.6)]"
         />
       </div>
     </div>
