@@ -1,13 +1,16 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Design tokens for "Pleroma — Liminal Light".
+ * Design tokens for "Pleroma — Séance, brutalist key".
  *
- * The palette is a candlelight vigil at twilight: a deep indigo night, a single
- * warm flame (candle gold) reserved for sacred/primary moments, and an amethyst
- * "aurora" that stands in for the dimensional light of the connection ritual.
- * We intentionally avoid decorative shadows/cards; hierarchy comes from space,
- * light (glows), and hairlines that fade at their ends.
+ * A chapel hewn from concrete and night, lit by one safety-orange flame. The
+ * ground is near-black; surfaces are raw, cool concrete; the single accent is
+ * an ember orange reserved for the sacred/primary moment (the flame, the one
+ * CTA). Type is a high-contrast Didone over a humanist sans. Hierarchy comes
+ * from space, weight, and that one light — not from decorative cards.
+ *
+ * The token NAMES are kept (night/veil/candle/aurora/pearl/mist) so every
+ * screen re-skins at once; only their values moved to the séance palette.
  */
 const config: Config = {
   content: [
@@ -18,15 +21,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        night: "#0E1030",
-        veil: "#171A44",
-        "veil-2": "#221F52",
-        candle: "#F0C066",
-        "candle-soft": "#F6D89A",
-        aurora: "#9E8CE6",
-        "aurora-deep": "#6C5CB0",
-        pearl: "#ECE7FB",
-        mist: "#A9A2CF",
+        night: "#07070A", // near-black ground — the dark the light stands out of
+        veil: "#141317", // raw concrete panel
+        "veil-2": "#1E1D1A", // warmer concrete, lifted surface
+        candle: "#FF5A1F", // the one flame — safety orange, the sole accent
+        "candle-soft": "#FF8A4C", // its softer, brighter edge
+        aurora: "#8A8681", // concrete — borders, hairlines, quiet structure
+        "aurora-deep": "#3A3833", // deep concrete, muted edges
+        pearl: "#EDEAE3", // bone — primary ink on the dark
+        mist: "#B4B0A8", // light concrete — secondary, quieter copy
       },
       fontFamily: {
         // Wired up via next/font CSS variables in app/layout.tsx.
@@ -37,9 +40,9 @@ const config: Config = {
         measure: "62ch", // comfortable reading line-length for grief-facing copy
       },
       boxShadow: {
-        // A soft candle glow, not a drop shadow.
-        glow: "0 0 40px -8px rgba(240, 192, 102, 0.35)",
-        "glow-aurora": "0 0 60px -10px rgba(158, 140, 230, 0.4)",
+        // A soft ember glow, not a drop shadow.
+        glow: "0 0 40px -8px rgba(255, 90, 31, 0.4)",
+        "glow-aurora": "0 0 60px -12px rgba(138, 134, 129, 0.35)",
       },
       keyframes: {
         breathe: {

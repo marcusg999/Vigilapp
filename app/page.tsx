@@ -18,7 +18,7 @@ export default function LandingPage() {
       <section className="relative flex min-h-screen flex-col items-center justify-center px-6 text-center">
         <ThresholdMark size={300} />
 
-        <h1 className="-mt-4 font-display text-5xl font-normal leading-[1.06] text-pearl sm:text-7xl">
+        <h1 className="-mt-4 font-display text-5xl font-black leading-[0.98] tracking-[-0.02em] text-pearl sm:text-7xl">
           Sit a while with
           <br />
           someone you love.
@@ -44,7 +44,7 @@ export default function LandingPage() {
           className="absolute bottom-10 h-16 w-px"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(158,140,230,0), rgba(158,140,230,0.45))",
+              "linear-gradient(to bottom, rgba(255,90,31,0), rgba(255,90,31,0.5))",
           }}
           aria-hidden="true"
         />
@@ -63,7 +63,7 @@ export default function LandingPage() {
               className="pointer-events-none absolute left-5 top-6 bottom-6 w-px"
               style={{
                 background:
-                  "linear-gradient(to bottom, transparent, rgba(158,140,230,0.5) 10%, rgba(240,192,102,0.38) 88%, transparent)",
+                  "linear-gradient(to bottom, transparent, rgba(138,134,129,0.5) 10%, rgba(255,90,31,0.42) 88%, transparent)",
               }}
               aria-hidden="true"
             />
@@ -73,8 +73,8 @@ export default function LandingPage() {
                 <li key={m.title} className="relative pl-16">
                   {/* luminous node on the thread */}
                   <span
-                    className="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-aurora/40 bg-night font-display text-lg text-candle-soft"
-                    style={{ boxShadow: "0 0 22px -4px rgba(158,140,230,0.7)" }}
+                    className="absolute left-0 top-0 grid h-10 w-10 place-items-center rounded-full border border-aurora/40 bg-night font-display text-lg font-bold text-candle-soft"
+                    style={{ boxShadow: "0 0 22px -4px rgba(255,90,31,0.55)" }}
                     aria-hidden="true"
                   >
                     {romanize(i + 1)}
@@ -96,7 +96,7 @@ export default function LandingPage() {
       <section className="flex flex-col items-center px-6 py-24 text-center">
         <FlameMark
           size={30}
-          className="animate-breathe drop-shadow-[0_0_22px_rgba(240,192,102,0.55)]"
+          className="animate-breathe drop-shadow-[0_0_22px_rgba(255,90,31,0.55)]"
         />
         <p className="mt-6 max-w-measure font-display text-2xl leading-snug text-pearl sm:text-3xl">
           When you&apos;re ready, we&apos;ll keep the light with you.
