@@ -3,11 +3,11 @@
  * math lives apart from the React components that mount it.
  *
  * The scene is additive and dark: points and planes only ever *add* light to
- * the night. The ritual is a journey — it starts cool (amethyst) and, as the
- * camera accelerates inward through the dimensional layers, warms toward candle
- * gold and brightens, arriving in a flood of warm light. Two uniforms carry
- * that journey to every shader:
- *   uWarm  0..1  — colour lerp from amethyst toward candle
+ * the night. The ritual is a journey — it starts cold (concrete steel) and, as
+ * the camera accelerates inward through the dimensional layers, warms toward the
+ * ember flame and brightens, arriving in a flood of orange light. Two uniforms
+ * carry that journey to every shader:
+ *   uWarm  0..1  — colour lerp from cold concrete toward ember orange
  *   uWarp  0..1  — acceleration/brightness as the arrival nears
  */
 
@@ -44,9 +44,9 @@ export const PARTICLE_VERTEX = /* glsl */ `
 export const PARTICLE_FRAGMENT = /* glsl */ `
   precision highp float; // match the vertex stage so shared uniforms agree
 
-  uniform vec3 uColorA; // aurora (amethyst) — the many
-  uniform vec3 uColorB; // candle (gold) — the rare warm few, and the arrival
-  uniform float uWarm;  // 0..1 amethyst -> candle
+  uniform vec3 uColorA; // concrete steel — the cold many
+  uniform vec3 uColorB; // ember orange — the rare warm few, and the arrival
+  uniform float uWarm;  // 0..1 concrete -> ember
   uniform float uWarp;  // 0..1 extra brightness near arrival
 
   varying float vSeed;
@@ -93,13 +93,15 @@ export const LAYER_FRAGMENT = /* glsl */ `
     float glow = smoothstep(0.5, 0.0, r); // bright core, transparent rim
     float alpha = glow * (0.10 + 0.12 * ring) * (1.0 + uWarp * 1.6);
 
-    vec3 candle = vec3(0.94, 0.75, 0.40);
-    vec3 color = mix(uColor, candle, uWarm);
+    vec3 ember = vec3(1.0, 0.35, 0.12);
+    vec3 color = mix(uColor, ember, uWarm);
 
     gl_FragColor = vec4(color, alpha);
   }
 `;
 
-/* Palette pulled from the app's design tokens, in 0..1 linear-ish RGB. */
-export const AURORA_RGB: [number, number, number] = [0.62, 0.55, 0.9]; // #9E8CE6
-export const CANDLE_RGB: [number, number, number] = [0.94, 0.75, 0.4]; // #F0C066
+/* Palette pulled from the app's design tokens, in 0..1 linear-ish RGB.
+   Names kept (AURORA/CANDLE) so the ritual components need no change; the
+   values moved to the séance key: cold concrete steel -> ember orange. */
+export const AURORA_RGB: [number, number, number] = [0.36, 0.4, 0.46]; // cold concrete steel
+export const CANDLE_RGB: [number, number, number] = [1.0, 0.353, 0.122]; // #FF5A1F ember

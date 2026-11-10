@@ -10,7 +10,7 @@ export function SupportResourceCard() {
     <div
       role="note"
       className="surface my-4 border-candle/30 p-5"
-      style={{ borderColor: "rgba(240,192,102,0.35)" }}
+      style={{ borderColor: "rgba(255,90,31,0.38)" }}
     >
       <p className="font-display text-lg text-candle-soft">
         {SUPPORT_RESOURCE.headline}

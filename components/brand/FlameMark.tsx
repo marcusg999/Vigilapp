@@ -31,8 +31,8 @@ export function FlameMark({
       />
       <defs>
         <linearGradient id="flame" x1="12" y1="2" x2="12" y2="17" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#F6D89A" />
-          <stop offset="1" stopColor="#F0C066" />
+          <stop stopColor="#FF8A4C" />
+          <stop offset="1" stopColor="#FF5A1F" />
         </linearGradient>
       </defs>
     </svg>

@@ -64,7 +64,7 @@ export default function ConnectionRitual({
           <Canvas
             camera={{ position: [0, 0, 6], fov: 65 }}
             gl={{ antialias: true }}
-            onCreated={({ gl }) => gl.setClearColor("#0E1030")}
+            onCreated={({ gl }) => gl.setClearColor("#07070A")}
           >
             <CameraRig duration={duration} />
             <DimensionalLayers duration={duration} />
@@ -82,7 +82,7 @@ export default function ConnectionRitual({
         style={{
           opacity: arriving ? 1 : 0,
           background:
-            "radial-gradient(circle at 50% 50%, rgba(255,246,224,0.9) 0%, rgba(246,216,154,0.65) 22%, rgba(158,140,230,0.25) 52%, rgba(14,16,48,0) 78%)",
+            "radial-gradient(circle at 50% 50%, rgba(255,244,224,0.92) 0%, rgba(255,138,76,0.7) 22%, rgba(255,90,31,0.28) 52%, rgba(7,7,10,0) 78%)",
         }}
         aria-hidden="true"
       />
@@ -163,7 +163,7 @@ function StillFallback() {
       className="absolute inset-0"
       style={{
         background:
-          "radial-gradient(60% 50% at 50% 55%, rgba(240,192,102,0.2), rgba(158,140,230,0.13) 40%, rgba(14,16,48,0) 75%)",
+          "radial-gradient(60% 50% at 50% 55%, rgba(255,90,31,0.22), rgba(138,134,129,0.12) 40%, rgba(7,7,10,0) 75%)",
       }}
     />
   );
