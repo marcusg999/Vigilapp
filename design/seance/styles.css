@@ -14,14 +14,17 @@
 @font-face { font-family:"Instrument Sans"; font-weight:500; font-style:normal;
   src:url("./vendor/fonts/instrument-sans-latin-500-normal.woff2") format("woff2"); font-display:swap; }
 
+/* Palette kept in lockstep with the app's design tokens (tailwind.config.ts):
+   black=night, ink=pearl, dim=mist, concrete=aurora, concrete-deep=aurora-deep,
+   orange=candle, orange-soft=candle-soft. */
 :root{
-  --black:#07070a;
-  --ink:#edeae3;
-  --dim:#c9c5bc;
-  --concrete:#8a8681;
-  --concrete-deep:#26251f;
-  --orange:#ff5a1f;
-  --orange-soft:#ff8a4c;
+  --black:#07070a;        /* night */
+  --ink:#edeae3;          /* pearl */
+  --dim:#b4b0a8;          /* mist — secondary copy, matched to the app */
+  --concrete:#8a8681;     /* aurora */
+  --concrete-deep:#3a3833;/* aurora-deep */
+  --orange:#ff5a1f;       /* candle */
+  --orange-soft:#ff8a4c;  /* candle-soft */
   --measure:66ch;
 }
 
