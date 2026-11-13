@@ -12,7 +12,7 @@
  * On success the session reaches aal2 and requireAdmin() lets them into /admin.
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
@@ -20,7 +20,11 @@ type Mode = "loading" | "enroll" | "verify" | "done";
 
 export default function MfaPage() {
   const router = useRouter();
-  const supabase = createClient();
+  // Create the browser client lazily, only when browser code runs — never in
+  // the render body, so the build-time prerender doesn't construct a Supabase
+  // client (which would throw without env and fail `next build` / Netlify).
+  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
+  const getSupabase = () => (supabaseRef.current ??= createClient());
 
   const [mode, setMode] = useState<Mode>("loading");
   const [factorId, setFactorId] = useState<string | null>(null);
@@ -35,6 +39,7 @@ export default function MfaPage() {
     let cancelled = false;
 
     async function init() {
+      const supabase = getSupabase();
       const { data, error } = await supabase.auth.mfa.listFactors();
       if (error) {
         if (!cancelled) setError(error.message);
@@ -82,6 +87,7 @@ export default function MfaPage() {
     setError(null);
     setPending(true);
 
+    const supabase = getSupabase();
     const { error } = await supabase.auth.mfa.challengeAndVerify({
       factorId,
       code: code.trim(),
